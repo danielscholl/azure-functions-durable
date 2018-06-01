@@ -70,7 +70,7 @@ az login
 az account set --subscription ${Subscription}
 
 # Create Resource Group
-ResourceGroup="azure-functions-durable"
+ResourceGroup="durablefunctions"
 Location="southcentralus"
 az group create --name ${ResourceGroup} \
   --location ${Location} \
@@ -131,7 +131,7 @@ EOF1
   }
   ```
 
-- Test It
+- Test It Locally
 
   ```bash
   # Start It
@@ -148,4 +148,40 @@ EOF1
   Transfer-Encoding: chunked
 
   Pong
+
+  # Log Analytics Query 
+  // Ping AIQL Logging Query
+  traces
+  | where operation_Name == "ping"
+  | where customDimensions.Category == "Function.ping.User"
+  | where severityLevel == 1
+  | where timestamp > ago(10m)
+  | sort by timestamp asc
+  | project timestamp, operation_Id,  operation_Name,  severityLevel ,  message
+  ```
+
+- Test It Remotely
+> For this section shell out to bash (ubuntu)
+
+  ```bash
+  # Retrive Information
+  RESOURCE_GROUP="durablefunctions"
+  NAME=$(az functionapp list \
+    --resource-group ${RESOURCE_GROUP} \
+    --query [].name -otsv)
+
+  WEBHOST="https://"$(az functionapp list \
+    --resource-group ${RESOURCE_GROUP} \
+    --query [].defaultHostName -otsv)
+  
+  # Connect to Log Stream
+  az webapp log tail \
+    --resource-group ${RESOURCE_GROUP} \
+    --name ${NAME}
+
+  # Trigger it
+  http get $WEBHOST/api/ping
+
+
+  az webapp log tail --resource-group durablefunctions --name dks5qmjppnvdlaqg-func
   ```
