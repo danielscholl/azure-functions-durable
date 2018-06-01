@@ -106,12 +106,12 @@ EOF1
 
 #### Create and test a _Ping/Pong_ Function
 
-__Create It__
+- Create It
 ```powershell
 func new -l C# -t "Http Trigger" -n ping
 ```
 
-__Edit It__
+- Edit It
 Modify the ping/run.csx file to be a simple pong return
 
 ```c#
@@ -126,8 +126,7 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
 }
 ```
 
-__Test It__
-
+- Test It
 ```powershell
 func start
 http post http://localhost:7071/api/ping
