@@ -133,8 +133,11 @@ EOF1
 
 - Test It
 
-  ```
+  ```bash
+  # Start It
   func start
+
+  # Trigger It
   http post http://localhost:7071/api/ping
 
   # Result
