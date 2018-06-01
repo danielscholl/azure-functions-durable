@@ -87,7 +87,10 @@ if $(az storage account check-name --name ${StorageAccount} --query nameAvailabl
 fi
 
 # Set Storage Account Context
-export STORAGE_CONNECTION=$(az storage account show-connection-string --name ${StorageAccount} --resource-group ${ResourceGroup} --query connectionString -otsv)
+export STORAGE_CONNECTION=$(az storage account show-connection-string \
+  --name ${StorageAccount} \
+  --resource-group ${ResourceGroup} \
+  --query connectionString -otsv)
 
 # Set Storage Account into .envrc file
 echo "export STORAGE_ACCOUNT='${STORAGE_CONNECTION}'" > .envrc
@@ -107,11 +110,13 @@ EOF1
 #### Create and test a _Ping/Pong_ Function
 
 - Create It
+
 ```powershell
 func new -l C# -t "Http Trigger" -n ping
 ```
 
 - Edit It
+
 Modify the ping/run.csx file to be a simple pong return
 
 ```c#
@@ -127,6 +132,7 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
 ```
 
 - Test It
+
 ```powershell
 func start
 http post http://localhost:7071/api/ping
