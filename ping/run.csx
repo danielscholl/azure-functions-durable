@@ -4,6 +4,6 @@ using Microsoft.Extensions.Primitives;
 
 public static IActionResult Run(HttpRequest req, TraceWriter log)
 {
-    log.Info("C# HTTP trigger function processed a request.");
+    log.Info("Ping Test Executed.");
     return (ActionResult)new OkObjectResult($"Pong");
 }

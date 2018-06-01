@@ -111,29 +111,38 @@ EOF1
 
 - Create It
 
-```powershell
-func new -l C# -t "Http Trigger" -n ping
-```
+  ```powershell
+  func new -l C# -t "Http Trigger" -n ping
+  ```
 
 - Edit It
 
-Modify the ping/run.csx file to be a simple pong return
+  Modify the ping/run.csx file to be a simple pong return
 
-```c#
-using System.Net;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
+  ```c#
+  using System.Net;
+  using Microsoft.AspNetCore.Mvc;
+  using Microsoft.Extensions.Primitives;
 
-public static IActionResult Run(HttpRequest req, TraceWriter log)
-{
-    log.Info("C# HTTP trigger function processed a request.");
-    return (ActionResult)new OkObjectResult($"Pong");
-}
-```
+  public static IActionResult Run(HttpRequest req, TraceWriter log)
+  {
+      log.Info("Ping Test Executed.");
+      return (ActionResult)new OkObjectResult($"Pong");
+  }
+  ```
 
 - Test It
 
-```powershell
-func start
-http post http://localhost:7071/api/ping
-```
+  ```
+  func start
+  http post http://localhost:7071/api/ping
+
+  # Result
+  HTTP/1.1 200 OK
+  Content-Type: text/plain; charset=utf-8
+  Date: Fri, 01 Jun 2018 16:44:01 GMT
+  Server: Kestrel
+  Transfer-Encoding: chunked
+
+  Pong
+  ```
